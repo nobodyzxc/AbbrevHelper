@@ -25,17 +25,14 @@ class abbParser(HTMLParser):
     def handle_starttag(self , tag , attrs):
         self.lastTag = tag
         if not self.stopParse:
-            if tag == "div":
-                for(attr , value) in attrs:
-                    if attr == 'class' and value == 'pairDef':
-                        self.getDef = True
-                    if attr == 'class' and value == 'abbreviated-separator':
-                        self.stopParse = True
-                    if attr == 'class' and value == 'n':
-                        self.getRank = True 
-                    if attr == 'title' and self.getRank == True:
-                        print "Rank:" , "%3s " %value.split(' ')[0] ,
-                        self.getRank = False
+            for(attr , value) in attrs:
+                if attr == 'class' and value == 'pairDef':
+                    self.getDef = True
+                if attr == 'class' and value == 'n':
+                    self.getRank = True 
+                if attr == 'title' and self.getRank == True:
+                    print "Rank:" , "%3s " %value.split(' ')[0] ,
+                    self.getRank = False
             if tag == "a" and self.getDef == True:
                 for(attr , value) in attrs:
                     if attr == 'href':
