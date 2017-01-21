@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.7
 
 import sys
 import urllib2
@@ -36,8 +36,10 @@ class abbParser(HTMLParser):
             if tag == "a" and self.getDef == True:
                 for(attr , value) in attrs:
                     if attr == 'href':
-                        print "%-7s" %value.split('/')[1] , " " , 
-                        print "%-15s" %value.split('/')[2]
+                        if len(value.split('/')) > 1:
+                            print "%-7s" %value.split('/')[1] , " " , 
+                        if len(value.split('/')) > 2:
+                            print "%-15s" %value.split('/')[2]
                         self.getDef = False
 #######################    MAIN   ######################
 
