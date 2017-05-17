@@ -22,6 +22,7 @@ class abbParser(HTMLParser):
         self.getDef = False
         self.getRank = False
         self.lastTag = ""
+        self.abbreving = False
     def handle_starttag(self , tag , attrs):
         self.lastTag = tag
         if not self.stopParse:
@@ -33,6 +34,7 @@ class abbParser(HTMLParser):
                 if attr == 'title' and self.getRank == True:
                     print "Rank:" , "%3s " %value.split(' ')[0] ,
                     self.getRank = False
+                    self.abbreving = True
             if tag == "a" and self.getDef == True:
                 for(attr , value) in attrs:
                     if attr == 'href':
@@ -41,6 +43,10 @@ class abbParser(HTMLParser):
                         if len(value.split('/')) > 2:
                             print "%-15s" %value.split('/')[2]
                         self.getDef = False
+    def handle_endtag(self , tag):
+        if not self.stopParse:
+            if tag == "ul" and self.abbreving == True:
+                self.stopParse = True
 #######################    MAIN   ######################
 
 if __name__ == '__main__':
